@@ -13,6 +13,7 @@ model User {
   email            String       @unique
   stripeCustomerId String?      @unique
   name             String?
+  analyses         Analysis[]
   subscription     Subscription?
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt
@@ -29,4 +30,17 @@ model Subscription {
   planId               String
   userId               String   @unique
   user                 User     @relation(fields: [userId], references: [id])
+}
+
+model Analysis {
+  id            String     @id @default(cuid())
+  videoId       String
+  videoTitle    String?
+  analysis      String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+
+  @@index([userId])
 }

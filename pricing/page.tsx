@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import React from "react"
-import prisma from "@/lib/db"
+import { prisma } from "@/lib/prisma"
 import { getStripeSession, stripe } from "@/lib/stripe"
 import { unstable_noStore } from "next/cache"
 import { redirect } from "next/navigation"
@@ -27,7 +27,7 @@ async function getData(userId: string | null) {
 
 export default async function Pricing() {
 
-    const { userId } = auth();
+    const { userId } = await auth();
     const user = await currentUser();
 
     const subscription = await getData(userId)
